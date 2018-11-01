@@ -1,12 +1,13 @@
 package com.saf.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import com.saf.service.StudentiService;
-import com.saf.web.rest.errors.BadRequestAlertException;
-import com.saf.web.rest.util.HeaderUtil;
-import com.saf.web.rest.util.PaginationUtil;
-import com.saf.service.dto.StudentiDTO;
-import io.github.jhipster.web.util.ResponseUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+//import java.util.stream.StreamSupport;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -14,14 +15,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.codahale.metrics.annotation.Timed;
+import com.saf.service.StudentiService;
+import com.saf.service.dto.StudentiDTO;
+import com.saf.web.rest.errors.BadRequestAlertException;
+import com.saf.web.rest.util.HeaderUtil;
+import com.saf.web.rest.util.PaginationUtil;
 
-import java.util.List;
-import java.util.Optional;
+import io.github.jhipster.web.util.ResponseUtil;
+
+//import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Studenti.
@@ -34,7 +47,7 @@ public class StudentiResource {
 
     private static final String ENTITY_NAME = "studenti";
 
-    private StudentiService studentiService;
+    private final StudentiService studentiService;
 
     public StudentiResource(StudentiService studentiService) {
         this.studentiService = studentiService;
@@ -74,7 +87,7 @@ public class StudentiResource {
     public ResponseEntity<StudentiDTO> updateStudenti(@Valid @RequestBody StudentiDTO studentiDTO) throws URISyntaxException {
         log.debug("REST request to update Studenti : {}", studentiDTO);
         if (studentiDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            return createStudenti(studentiDTO);
         }
         StudentiDTO result = studentiService.save(studentiDTO);
         return ResponseEntity.ok()
@@ -123,5 +136,40 @@ public class StudentiResource {
         log.debug("REST request to delete Studenti : {}", id);
         studentiService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * SEARCH  /_search/studentis?query=:query : search for the studenti corresponding
+     * to the query.
+     *
+     * @param query the query of the studenti search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/studentis")
+    @Timed
+    public ResponseEntity<List<StudentiDTO>> searchStudentis(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Studentis for query {}", query);
+        Page<StudentiDTO> page = studentiService.findByNomeOrCognome(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/studentis");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+//    
+    @GetMapping("/studentis/cdl/{id}")
+    @Timed
+    public ResponseEntity<List<StudentiDTO>> searchStudentisByCdl(@PathVariable Long id, Pageable pageable) {
+        log.debug("REST request to search for a page of Studenti for cdl id: {}", id);
+        Page<StudentiDTO> page = studentiService.findByCdlId(id, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(id.toString(), page, "/studentis/cdl/");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/studentis/bystu/{id}")
+    @Timed
+    public ResponseEntity<List<StudentiDTO>> searchStudentiByPds(@PathVariable Long id, Pageable pageable) {
+        log.debug("REST request to search for a page of Studenti for cdl id: {}", id);
+        Page<StudentiDTO> page = studentiService.findAllStudentsByCdlId(id, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(id.toString(), page, "/studentis/bystu/{id}");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }

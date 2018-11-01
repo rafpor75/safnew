@@ -4,10 +4,17 @@ import com.codahale.metrics.annotation.Timed;
 import com.saf.service.AnnoAccademicoService;
 import com.saf.web.rest.errors.BadRequestAlertException;
 import com.saf.web.rest.util.HeaderUtil;
+import com.saf.web.rest.util.PaginationUtil;
 import com.saf.service.dto.AnnoAccademicoDTO;
+import com.saf.service.dto.StudentiDTO;
+
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +24,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+//import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing AnnoAccademico.
@@ -29,7 +39,7 @@ public class AnnoAccademicoResource {
 
     private static final String ENTITY_NAME = "annoAccademico";
 
-    private AnnoAccademicoService annoAccademicoService;
+    private final AnnoAccademicoService annoAccademicoService;
 
     public AnnoAccademicoResource(AnnoAccademicoService annoAccademicoService) {
         this.annoAccademicoService = annoAccademicoService;
@@ -69,7 +79,7 @@ public class AnnoAccademicoResource {
     public ResponseEntity<AnnoAccademicoDTO> updateAnnoAccademico(@Valid @RequestBody AnnoAccademicoDTO annoAccademicoDTO) throws URISyntaxException {
         log.debug("REST request to update AnnoAccademico : {}", annoAccademicoDTO);
         if (annoAccademicoDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            return createAnnoAccademico(annoAccademicoDTO);
         }
         AnnoAccademicoDTO result = annoAccademicoService.save(annoAccademicoDTO);
         return ResponseEntity.ok()
@@ -87,7 +97,7 @@ public class AnnoAccademicoResource {
     public List<AnnoAccademicoDTO> getAllAnnoAccademicos() {
         log.debug("REST request to get all AnnoAccademicos");
         return annoAccademicoService.findAll();
-    }
+        }
 
     /**
      * GET  /anno-accademicos/:id : get the "id" annoAccademico.
@@ -116,4 +126,31 @@ public class AnnoAccademicoResource {
         annoAccademicoService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/anno-accademicos?query=:query : search for the annoAccademico corresponding
+     * to the query.
+     *
+     * @param query the query of the annoAccademico search
+     * @return the result of the search
+     */
+//    @GetMapping("/_search/anno-accademicos")
+//    @Timed
+//    public List<AnnoAccademicoDTO> searchAnnoAccademicos(@RequestParam String query) {
+//        log.debug("REST request to search AnnoAccademicos for query {}", query);
+//        return annoAccademicoService.search(query);
+//    }
+    
+    @GetMapping("/_search/anno-accademicos-bydescrizione")
+    @Timed
+    public ResponseEntity<List<AnnoAccademicoDTO>> searchAnnoAccademicosByDescrizione(@RequestParam String query, Pageable pageable) {
+        
+        log.debug("REST request to search for a page of Studenti for descrizione: {}", query);
+        Page<AnnoAccademicoDTO> page = annoAccademicoService.findByDescrizione(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/_search/anno-accademicos-bydescrizione");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        
+        
+    }
+    
 }

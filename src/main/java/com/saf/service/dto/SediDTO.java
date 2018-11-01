@@ -1,7 +1,10 @@
 package com.saf.service.dto;
 
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -12,6 +15,7 @@ public class SediDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 65)
     private String sede;
 
     public Long getId() {
@@ -40,7 +44,7 @@ public class SediDTO implements Serializable {
         }
 
         SediDTO sediDTO = (SediDTO) o;
-        if (sediDTO.getId() == null || getId() == null) {
+        if(sediDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), sediDTO.getId());

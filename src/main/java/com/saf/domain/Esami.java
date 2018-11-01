@@ -1,6 +1,5 @@
 package com.saf.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -13,6 +12,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "esami")
+
 public class Esami implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,11 +24,7 @@ public class Esami implements Serializable {
     @Column(name = "data")
     private LocalDate data;
 
-    @OneToOne    @JoinColumn(unique = true)
-    private Sedi relEsamiSedi;
-
     @ManyToOne
-    @JsonIgnoreProperties("")
     private Materie relMatEsami;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -51,19 +47,6 @@ public class Esami implements Serializable {
 
     public void setData(LocalDate data) {
         this.data = data;
-    }
-
-    public Sedi getRelEsamiSedi() {
-        return relEsamiSedi;
-    }
-
-    public Esami relEsamiSedi(Sedi sedi) {
-        this.relEsamiSedi = sedi;
-        return this;
-    }
-
-    public void setRelEsamiSedi(Sedi sedi) {
-        this.relEsamiSedi = sedi;
     }
 
     public Materie getRelMatEsami() {

@@ -12,6 +12,8 @@ import org.mapstruct.*;
 public interface StudentiMapper extends EntityMapper<StudentiDTO, Studenti> {
 
     @Mapping(source = "relStuCdl.id", target = "relStuCdlId")
+    @Mapping(source = "relStuCdl.nome", target = "relStuCdlNome")
+    @Mapping(source = "relStuCdl.codice", target = "relStuCdlCodice")
     StudentiDTO toDto(Studenti studenti);
 
     @Mapping(source = "relStuCdlId", target = "relStuCdl")

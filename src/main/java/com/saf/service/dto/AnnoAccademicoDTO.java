@@ -1,5 +1,6 @@
 package com.saf.service.dto;
 
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -40,7 +41,7 @@ public class AnnoAccademicoDTO implements Serializable {
         }
 
         AnnoAccademicoDTO annoAccademicoDTO = (AnnoAccademicoDTO) o;
-        if (annoAccademicoDTO.getId() == null || getId() == null) {
+        if(annoAccademicoDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), annoAccademicoDTO.getId());

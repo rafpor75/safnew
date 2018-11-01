@@ -1,8 +1,11 @@
 package com.saf.service.dto;
 
+
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -13,20 +16,25 @@ public class StudentiDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 65)
     private String nome;
 
     @NotNull
+    @Size(min = 1, max = 65)
     private String cognome;
 
     @NotNull
+    @Size(min = 1, max = 65)
     private String email;
 
     private String telefono;
 
     private String indirizzo;
 
+    @Size(min = 1, max = 65)
     private String citta;
 
+    @Size(min = 2, max = 3)
     private String provincia;
 
     private String stato;
@@ -46,9 +54,23 @@ public class StudentiDTO implements Serializable {
 
     private LocalDate dataModifica;
 
-    private Long relStuCdlId;
+    private String annoAccademico;
 
-    public Long getId() {
+    private Long relStuCdlId;
+    
+    private String relStuCdlNome;
+    
+    private String relStuCdlCodice;
+
+    public String getRelStuCdlNome() {
+		return relStuCdlNome;
+	}
+
+	public void setRelStuCdlNome(String relStuCdlNome) {
+		this.relStuCdlNome = relStuCdlNome;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -176,6 +198,14 @@ public class StudentiDTO implements Serializable {
         this.dataModifica = dataModifica;
     }
 
+    public String getAnnoAccademico() {
+        return annoAccademico;
+    }
+
+    public void setAnnoAccademico(String annoAccademico) {
+        this.annoAccademico = annoAccademico;
+    }
+
     public Long getRelStuCdlId() {
         return relStuCdlId;
     }
@@ -184,7 +214,15 @@ public class StudentiDTO implements Serializable {
         this.relStuCdlId = cdlId;
     }
 
-    @Override
+    public String getRelStuCdlCodice() {
+		return relStuCdlCodice;
+	}
+
+	public void setRelStuCdlCodice(String relStuCdlCodice) {
+		this.relStuCdlCodice = relStuCdlCodice;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -194,7 +232,7 @@ public class StudentiDTO implements Serializable {
         }
 
         StudentiDTO studentiDTO = (StudentiDTO) o;
-        if (studentiDTO.getId() == null || getId() == null) {
+        if(studentiDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), studentiDTO.getId());
@@ -224,7 +262,7 @@ public class StudentiDTO implements Serializable {
             ", tempoParziale='" + isTempoParziale() + "'" +
             ", abilitato='" + isAbilitato() + "'" +
             ", dataModifica='" + getDataModifica() + "'" +
-            ", relStuCdl=" + getRelStuCdlId() +
+            ", annoAccademico='" + getAnnoAccademico() + "'" +
             "}";
     }
 }

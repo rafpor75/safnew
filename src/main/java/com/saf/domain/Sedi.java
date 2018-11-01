@@ -1,10 +1,13 @@
 package com.saf.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -21,8 +24,13 @@ public class Sedi implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "sede", nullable = false)
+    @Size(min = 1, max = 65)
+    @Column(name = "sede", length = 65, nullable = false)
     private String sede;
+
+    @OneToMany(mappedBy = "relNoteSedi")
+    @JsonIgnore
+    private Set<NoteEsame> relSediNotes = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -44,6 +52,31 @@ public class Sedi implements Serializable {
 
     public void setSede(String sede) {
         this.sede = sede;
+    }
+
+    public Set<NoteEsame> getRelSediNotes() {
+        return relSediNotes;
+    }
+
+    public Sedi relSediNotes(Set<NoteEsame> noteEsames) {
+        this.relSediNotes = noteEsames;
+        return this;
+    }
+
+    public Sedi addRelSediNote(NoteEsame noteEsame) {
+        this.relSediNotes.add(noteEsame);
+        noteEsame.setRelNoteSedi(this);
+        return this;
+    }
+
+    public Sedi removeRelSediNote(NoteEsame noteEsame) {
+        this.relSediNotes.remove(noteEsame);
+        noteEsame.setRelNoteSedi(null);
+        return this;
+    }
+
+    public void setRelSediNotes(Set<NoteEsame> noteEsames) {
+        this.relSediNotes = noteEsames;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

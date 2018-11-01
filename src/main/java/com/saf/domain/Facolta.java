@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+//import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -16,6 +17,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "facolta")
+//@Document(indexName = "facolta")
 public class Facolta implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,7 +27,8 @@ public class Facolta implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "nome", nullable = false)
+    @Size(min = 1, max = 65)
+    @Column(name = "nome", length = 65, nullable = false)
     private String nome;
 
     @Column(name = "data_modifica")
@@ -35,7 +38,9 @@ public class Facolta implements Serializable {
     private Boolean abilitato;
 
     @OneToMany(mappedBy = "relCdlsFac")
+    @JsonIgnore
     private Set<Cdl> relFacCdls = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

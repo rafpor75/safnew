@@ -5,6 +5,7 @@ import com.saf.service.DocentiService;
 import com.saf.web.rest.errors.BadRequestAlertException;
 import com.saf.web.rest.util.HeaderUtil;
 import com.saf.web.rest.util.PaginationUtil;
+import com.saf.service.dto.CdlDTO;
 import com.saf.service.dto.DocentiDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -22,6 +23,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+//import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Docenti.
@@ -34,7 +38,7 @@ public class DocentiResource {
 
     private static final String ENTITY_NAME = "docenti";
 
-    private DocentiService docentiService;
+    private final DocentiService docentiService;
 
     public DocentiResource(DocentiService docentiService) {
         this.docentiService = docentiService;
@@ -74,7 +78,7 @@ public class DocentiResource {
     public ResponseEntity<DocentiDTO> updateDocenti(@Valid @RequestBody DocentiDTO docentiDTO) throws URISyntaxException {
         log.debug("REST request to update Docenti : {}", docentiDTO);
         if (docentiDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            return createDocenti(docentiDTO);
         }
         DocentiDTO result = docentiService.save(docentiDTO);
         return ResponseEntity.ok()
@@ -124,4 +128,34 @@ public class DocentiResource {
         docentiService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/docentis?query=:query : search for the docenti corresponding
+     * to the query.
+     *
+     * @param query the query of the docenti search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+//    @GetMapping("/_search/docentis")
+//    @Timed
+//    public ResponseEntity<List<DocentiDTO>> searchDocentis(@RequestParam String query, Pageable pageable) {
+//        log.debug("REST request to search for a page of Docentis for query {}", query);
+//        Page<DocentiDTO> page = docentiService.search(query, pageable);
+//        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/docentis");
+//        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+//    }
+    
+    @GetMapping("/_search/docentis-bynome-or-cognome")
+    @Timed
+    public ResponseEntity<List<DocentiDTO>> searchDocentisByNomeOrCognome(@RequestParam String query, Pageable pageable) {
+        
+        log.debug("REST request to search for a page of Studenti for descrizione: {}", query);
+        Page<DocentiDTO> page = docentiService.findByNomeOrCognome(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/_search/docentis-bynome-or-cognome");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        
+        
+    }
+
 }

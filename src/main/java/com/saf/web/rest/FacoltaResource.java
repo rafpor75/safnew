@@ -22,6 +22,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+//import java.util.stream.StreamSupport;
+
+//import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Facolta.
@@ -34,7 +37,7 @@ public class FacoltaResource {
 
     private static final String ENTITY_NAME = "facolta";
 
-    private FacoltaService facoltaService;
+    private final FacoltaService facoltaService;
 
     public FacoltaResource(FacoltaService facoltaService) {
         this.facoltaService = facoltaService;
@@ -74,7 +77,7 @@ public class FacoltaResource {
     public ResponseEntity<FacoltaDTO> updateFacolta(@Valid @RequestBody FacoltaDTO facoltaDTO) throws URISyntaxException {
         log.debug("REST request to update Facolta : {}", facoltaDTO);
         if (facoltaDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            return createFacolta(facoltaDTO);
         }
         FacoltaDTO result = facoltaService.save(facoltaDTO);
         return ResponseEntity.ok()
@@ -124,4 +127,22 @@ public class FacoltaResource {
         facoltaService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/facoltas?query=:query : search for the facolta corresponding
+     * to the query.
+     *
+     * @param query the query of the facolta search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/facoltas")
+    @Timed
+    public ResponseEntity<List<FacoltaDTO>> searchFacoltas(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Facoltas for query {}", query);
+        Page<FacoltaDTO> page = facoltaService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/facoltas");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

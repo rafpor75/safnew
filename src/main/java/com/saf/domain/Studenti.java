@@ -1,10 +1,10 @@
 package com.saf.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+//import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -14,6 +14,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "studenti")
+//@Document(indexName = "studenti")
 public class Studenti implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,15 +24,18 @@ public class Studenti implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "nome", nullable = false)
+    @Size(min = 1, max = 65)
+    @Column(name = "nome", length = 65, nullable = false)
     private String nome;
 
     @NotNull
-    @Column(name = "cognome", nullable = false)
+    @Size(min = 1, max = 65)
+    @Column(name = "cognome", length = 65, nullable = false)
     private String cognome;
 
     @NotNull
-    @Column(name = "email", nullable = false)
+    @Size(min = 1, max = 65)
+    @Column(name = "email", length = 65, nullable = false)
     private String email;
 
     @Column(name = "telefono")
@@ -40,10 +44,12 @@ public class Studenti implements Serializable {
     @Column(name = "indirizzo")
     private String indirizzo;
 
-    @Column(name = "citta")
+    @Size(min = 1, max = 65)
+    @Column(name = "citta", length = 65)
     private String citta;
 
-    @Column(name = "provincia")
+    @Size(min = 2, max = 3)
+    @Column(name = "provincia", length = 3)
     private String provincia;
 
     @Column(name = "stato")
@@ -71,8 +77,10 @@ public class Studenti implements Serializable {
     @Column(name = "data_modifica")
     private LocalDate dataModifica;
 
+    @Column(name = "anno_accademico")
+    private String annoAccademico;
+
     @ManyToOne
-    @JsonIgnoreProperties("")
     private Cdl relStuCdl;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -279,6 +287,19 @@ public class Studenti implements Serializable {
         this.dataModifica = dataModifica;
     }
 
+    public String getAnnoAccademico() {
+        return annoAccademico;
+    }
+
+    public Studenti annoAccademico(String annoAccademico) {
+        this.annoAccademico = annoAccademico;
+        return this;
+    }
+
+    public void setAnnoAccademico(String annoAccademico) {
+        this.annoAccademico = annoAccademico;
+    }
+
     public Cdl getRelStuCdl() {
         return relStuCdl;
     }
@@ -332,6 +353,7 @@ public class Studenti implements Serializable {
             ", tempoParziale='" + isTempoParziale() + "'" +
             ", abilitato='" + isAbilitato() + "'" +
             ", dataModifica='" + getDataModifica() + "'" +
+            ", annoAccademico='" + getAnnoAccademico() + "'" +
             "}";
     }
 }

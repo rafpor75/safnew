@@ -4,10 +4,16 @@ import com.codahale.metrics.annotation.Timed;
 import com.saf.service.SediService;
 import com.saf.web.rest.errors.BadRequestAlertException;
 import com.saf.web.rest.util.HeaderUtil;
+import com.saf.web.rest.util.PaginationUtil;
+//import com.saf.service.dto.MaterieDTO;
 import com.saf.service.dto.SediDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +23,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+//import java.util.stream.StreamSupport;
+
+//import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Sedi.
@@ -29,7 +38,7 @@ public class SediResource {
 
     private static final String ENTITY_NAME = "sedi";
 
-    private SediService sediService;
+    private final SediService sediService;
 
     public SediResource(SediService sediService) {
         this.sediService = sediService;
@@ -69,7 +78,7 @@ public class SediResource {
     public ResponseEntity<SediDTO> updateSedi(@Valid @RequestBody SediDTO sediDTO) throws URISyntaxException {
         log.debug("REST request to update Sedi : {}", sediDTO);
         if (sediDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            return createSedi(sediDTO);
         }
         SediDTO result = sediService.save(sediDTO);
         return ResponseEntity.ok()
@@ -87,7 +96,7 @@ public class SediResource {
     public List<SediDTO> getAllSedis() {
         log.debug("REST request to get all Sedis");
         return sediService.findAll();
-    }
+        }
 
     /**
      * GET  /sedis/:id : get the "id" sedi.
@@ -116,4 +125,21 @@ public class SediResource {
         sediService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/sedis?query=:query : search for the sedi corresponding
+     * to the query.
+     *
+     * @param query the query of the sedi search
+     * @return the result of the search
+     */
+    @GetMapping("/_search/sedis")
+    @Timed
+    public ResponseEntity<List<SediDTO>> searchSedis(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search Sedis for query {}", query);
+        Page<SediDTO> page =  sediService.search(query,pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/sedis");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

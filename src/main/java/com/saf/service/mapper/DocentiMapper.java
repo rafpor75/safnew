@@ -1,6 +1,7 @@
 package com.saf.service.mapper;
 
 import com.saf.domain.*;
+
 import com.saf.service.dto.DocentiDTO;
 
 import org.mapstruct.*;
@@ -14,7 +15,10 @@ public interface DocentiMapper extends EntityMapper<DocentiDTO, Docenti> {
 
     @Mapping(target = "relDocMats", ignore = true)
     Docenti toEntity(DocentiDTO docentiDTO);
-
+    
+    
+  //  DocentiDTO toDto(Docenti docenti);
+    
     default Docenti fromId(Long id) {
         if (id == null) {
             return null;

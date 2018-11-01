@@ -1,19 +1,22 @@
 package com.saf.service.impl;
 
-import com.saf.service.MaterieService;
-import com.saf.domain.Materie;
-import com.saf.repository.MaterieRepository;
-import com.saf.service.dto.MaterieDTO;
-import com.saf.service.mapper.MaterieMapper;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import com.saf.domain.Materie;
+import com.saf.repository.MaterieRepository;
+import com.saf.service.MaterieService;
+import com.saf.service.dto.CdlDTO;
+import com.saf.service.dto.MaterieDTO;
+import com.saf.service.mapper.MaterieMapper;
 
 /**
  * Service Implementation for managing Materie.
@@ -24,13 +27,16 @@ public class MaterieServiceImpl implements MaterieService {
 
     private final Logger log = LoggerFactory.getLogger(MaterieServiceImpl.class);
 
-    private MaterieRepository materieRepository;
+    private final MaterieRepository materieRepository;
 
-    private MaterieMapper materieMapper;
+    private final MaterieMapper materieMapper;
+
+ //   private final MaterieSearchRepository materieSearchRepository;
 
     public MaterieServiceImpl(MaterieRepository materieRepository, MaterieMapper materieMapper) {
         this.materieRepository = materieRepository;
         this.materieMapper = materieMapper;
+    //    this.materieSearchRepository = materieSearchRepository;
     }
 
     /**
@@ -42,10 +48,11 @@ public class MaterieServiceImpl implements MaterieService {
     @Override
     public MaterieDTO save(MaterieDTO materieDTO) {
         log.debug("Request to save Materie : {}", materieDTO);
-
         Materie materie = materieMapper.toEntity(materieDTO);
         materie = materieRepository.save(materie);
-        return materieMapper.toDto(materie);
+        MaterieDTO result = materieMapper.toDto(materie);
+   //     materieSearchRepository.save(materie);
+        return result;
     }
 
     /**
@@ -61,7 +68,6 @@ public class MaterieServiceImpl implements MaterieService {
         return materieRepository.findAll(pageable)
             .map(materieMapper::toDto);
     }
-
 
     /**
      * Get one materie by id.
@@ -86,5 +92,36 @@ public class MaterieServiceImpl implements MaterieService {
     public void delete(Long id) {
         log.debug("Request to delete Materie : {}", id);
         materieRepository.deleteById(id);
+   //     materieSearchRepository.delete(id);
     }
+
+    /**
+     * Search for the materie corresponding to the query.
+     *
+     * @param query the query of the search
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Page<MaterieDTO> search(String query, Pageable pageable) {
+        log.debug("Request to search for a page of Materies for query {}", query);
+        Page<Materie> result = materieRepository.findByNome(query, pageable);
+        return result.map(materieMapper::toDto);
+    }
+    
+    @Override
+    public Page<MaterieDTO> findByCdlId(Long cdlId, Pageable pageable){
+    	 log.debug("Request to get Materie for cdl id ");
+		 Page<Materie> result = materieRepository.findByCdlId(cdlId, pageable);
+	        return result.map(materieMapper::toDto);
+    }
+    @Override
+	@Transactional(readOnly = true)
+	public List<MaterieDTO> findByCdlId(Long facoltaId) {
+		log.debug("Request to get Cdls List for facolta id ");
+		return materieRepository.findByCdlId(facoltaId).stream().map(materieMapper::toDto)
+				.collect(Collectors.toCollection(LinkedList::new));
+
+	}
 }

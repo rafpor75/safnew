@@ -2,8 +2,13 @@ package com.saf.service;
 
 import com.saf.service.dto.AnnoAccademicoDTO;
 
+import com.saf.service.dto.MaterieDTO;
+
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service Interface for managing AnnoAccademico.
@@ -25,7 +30,6 @@ public interface AnnoAccademicoService {
      */
     List<AnnoAccademicoDTO> findAll();
 
-
     /**
      * Get the "id" annoAccademico.
      *
@@ -40,4 +44,17 @@ public interface AnnoAccademicoService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Search for the annoAccademico corresponding to the query.
+     *
+     * @param query the query of the search
+     * 
+     * @return the list of entities
+     */
+   // List<AnnoAccademicoDTO> search(String query);
+
+	//Page<AnnoAccademicoDTO> search(String query, Pageable pageable);
+	Page<AnnoAccademicoDTO> findByDescrizione(String descrizione, Pageable pageable);
+	
 }

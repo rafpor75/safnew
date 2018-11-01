@@ -1,10 +1,10 @@
 package com.saf.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+//import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -14,6 +14,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "materie")
+//@Document(indexName = "materie")
 public class Materie implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,7 +24,8 @@ public class Materie implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "nome", nullable = false)
+    @Size(min = 1, max = 65)
+    @Column(name = "nome", length = 65, nullable = false)
     private String nome;
 
     @Column(name = "cfu")
@@ -36,15 +38,12 @@ public class Materie implements Serializable {
     private LocalDate dataModifica;
 
     @ManyToOne
-    @JsonIgnoreProperties("relCdlMats")
     private Cdl relMatsCdl;
 
     @ManyToOne
-    @JsonIgnoreProperties("relTutMats")
     private Tutor relMatsTut;
 
     @ManyToOne
-    @JsonIgnoreProperties("relDocMats")
     private Docenti relMatsDoc;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

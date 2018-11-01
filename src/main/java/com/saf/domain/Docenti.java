@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+//import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,6 +16,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "docenti")
+//@Document(indexName = "docenti")
 public class Docenti implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,21 +26,26 @@ public class Docenti implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "nome", nullable = false)
+    @Size(min = 1, max = 65)
+    @Column(name = "nome", length = 65, nullable = false)
     private String nome;
 
     @NotNull
-    @Column(name = "cognome", nullable = false)
+    @Size(min = 1, max = 65)
+    @Column(name = "cognome", length = 65, nullable = false)
     private String cognome;
 
-    @Column(name = "email")
+    @Size(min = 1, max = 65)
+    @Column(name = "email", length = 65)
     private String email;
 
     @Column(name = "abilitato")
     private Boolean abilitato;
 
     @OneToMany(mappedBy = "relMatsDoc")
+    @JsonIgnore
     private Set<Materie> relDocMats = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;

@@ -1,8 +1,11 @@
 package com.saf.service.dto;
 
+
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -13,6 +16,7 @@ public class FacoltaDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 65)
     private String nome;
 
     private LocalDate dataModifica;
@@ -61,7 +65,7 @@ public class FacoltaDTO implements Serializable {
         }
 
         FacoltaDTO facoltaDTO = (FacoltaDTO) o;
-        if (facoltaDTO.getId() == null || getId() == null) {
+        if(facoltaDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), facoltaDTO.getId());

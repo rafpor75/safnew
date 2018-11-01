@@ -1,12 +1,9 @@
 package com.saf.service;
 
 import com.saf.service.dto.FacoltaDTO;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import java.util.Optional;
-
 /**
  * Service Interface for managing Facolta.
  */
@@ -28,7 +25,6 @@ public interface FacoltaService {
      */
     Page<FacoltaDTO> findAll(Pageable pageable);
 
-
     /**
      * Get the "id" facolta.
      *
@@ -43,4 +39,14 @@ public interface FacoltaService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Search for the facolta corresponding to the query.
+     *
+     * @param query the query of the search
+     * 
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+    Page<FacoltaDTO> search(String query, Pageable pageable);
 }

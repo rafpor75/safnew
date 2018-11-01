@@ -2,11 +2,13 @@ package com.saf.service;
 
 import com.saf.service.dto.PianiDiStudioDTO;
 
+import com.saf.service.dto.StudentiDTO;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import java.util.Optional;
-
 /**
  * Service Interface for managing PianiDiStudio.
  */
@@ -29,13 +31,6 @@ public interface PianiDiStudioService {
     Page<PianiDiStudioDTO> findAll(Pageable pageable);
 
     /**
-     * Get all the PianiDiStudio with eager load of many-to-many relationships.
-     *
-     * @return the list of entities
-     */
-    Page<PianiDiStudioDTO> findAllWithEagerRelationships(Pageable pageable);
-    
-    /**
      * Get the "id" pianiDiStudio.
      *
      * @param id the id of the entity
@@ -49,4 +44,21 @@ public interface PianiDiStudioService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Search for the pianiDiStudio corresponding to the query.
+     *
+     * @param query the query of the search
+     * 
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+ //   Page<PianiDiStudioDTO> search(String query, Pageable pageable);
+    
+    
+  	Page<PianiDiStudioDTO> findAllByCdlId(Long id, Pageable pageable);
+  	
+  	Page<PianiDiStudioDTO> findAllByStuId(Long id, Pageable pageable);
+
+	
 }

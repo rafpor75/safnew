@@ -1,5 +1,6 @@
 package com.saf.service.dto;
 
+
 import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -18,9 +19,57 @@ public class PianiDiStudioDTO implements Serializable {
     private LocalDate dataModifica;
 
     private Long relAnnoAccademicoId;
-
+    
+    private String relAnnoAccademicoDescrizione;
+    
     private Long relPdsCdlId;
+    
+    private String relPdsCdlNome;
 
+    private String relPdsCdlCodice;
+    
+    private Long relPdsStuId;
+    
+    private String relPdsStuNome;
+
+    private String relPdsStuCognome;
+    
+    private String relPdsStuMatricola;
+    
+    public Long getRelPdsStuId() {
+		return relPdsStuId;
+	}
+
+	public void setRelPdsStuId(Long relPdsStuId) {
+		this.relPdsStuId = relPdsStuId;
+	}
+
+	public String getRelPdsStuNome() {
+		return relPdsStuNome;
+	}
+
+	public void setRelPdsStuNome(String relPdsStuNome) {
+		this.relPdsStuNome = relPdsStuNome;
+	}
+
+	public String getRelPdsStuCognome() {
+		return relPdsStuCognome;
+	}
+
+	public void setRelPdsStuCognome(String relPdsStuCognome) {
+		this.relPdsStuCognome = relPdsStuCognome;
+	}
+
+	public String getRelPdsStuMatricola() {
+		return relPdsStuMatricola;
+	}
+
+	public void setRelPdsStuMatricola(String relPdsStuMatricola) {
+		this.relPdsStuMatricola = relPdsStuMatricola;
+	}
+
+	
+    
     private Set<MaterieDTO> relPdsMats = new HashSet<>();
 
     public Long getId() {
@@ -81,7 +130,7 @@ public class PianiDiStudioDTO implements Serializable {
         }
 
         PianiDiStudioDTO pianiDiStudioDTO = (PianiDiStudioDTO) o;
-        if (pianiDiStudioDTO.getId() == null || getId() == null) {
+        if(pianiDiStudioDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), pianiDiStudioDTO.getId());
@@ -98,8 +147,30 @@ public class PianiDiStudioDTO implements Serializable {
             "id=" + getId() +
             ", abilitato='" + isAbilitato() + "'" +
             ", dataModifica='" + getDataModifica() + "'" +
-            ", relAnnoAccademico=" + getRelAnnoAccademicoId() +
-            ", relPdsCdl=" + getRelPdsCdlId() +
             "}";
     }
+
+	public String getRelPdsCdlNome() {
+		return relPdsCdlNome;
+	}
+
+	public void setRelPdsCdlNome(String relPdsCdlNome) {
+		this.relPdsCdlNome = relPdsCdlNome;
+	}
+
+	public String getRelAnnoAccademicoDescrizione() {
+		return relAnnoAccademicoDescrizione;
+	}
+
+	public void setRelAnnoAccademicoDescrizione(String relAnnoAccademicoDescrizione) {
+		this.relAnnoAccademicoDescrizione = relAnnoAccademicoDescrizione;
+	}
+
+	public String getRelPdsCdlCodice() {
+		return relPdsCdlCodice;
+	}
+
+	public void setRelPdsCdlCodice(String relPdsCdlCodice) {
+		this.relPdsCdlCodice = relPdsCdlCodice;
+	}
 }

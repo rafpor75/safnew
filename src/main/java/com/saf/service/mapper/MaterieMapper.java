@@ -13,6 +13,7 @@ public interface MaterieMapper extends EntityMapper<MaterieDTO, Materie> {
 
     @Mapping(source = "relMatsCdl.id", target = "relMatsCdlId")
     @Mapping(source = "relMatsCdl.nome", target = "relMatsCdlNome")
+    @Mapping(source = "relMatsCdl.codice", target = "relMatsCdlCodice")
     @Mapping(source = "relMatsTut.id", target = "relMatsTutId")
     @Mapping(source = "relMatsTut.cognome", target = "relMatsTutCognome")
     @Mapping(source = "relMatsDoc.id", target = "relMatsDocId")

@@ -1,7 +1,10 @@
 package com.saf.service.dto;
 
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -15,6 +18,7 @@ public class CdlDTO implements Serializable {
     private String codice;
 
     @NotNull
+    @Size(max = 255)
     private String nome;
 
     private Boolean abilitato;
@@ -81,7 +85,7 @@ public class CdlDTO implements Serializable {
         }
 
         CdlDTO cdlDTO = (CdlDTO) o;
-        if (cdlDTO.getId() == null || getId() == null) {
+        if(cdlDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), cdlDTO.getId());
@@ -99,8 +103,6 @@ public class CdlDTO implements Serializable {
             ", codice='" + getCodice() + "'" +
             ", nome='" + getNome() + "'" +
             ", abilitato='" + isAbilitato() + "'" +
-            ", relCdlsFac=" + getRelCdlsFacId() +
-            ", relCdlsFac='" + getRelCdlsFacNome() + "'" +
             "}";
     }
 }

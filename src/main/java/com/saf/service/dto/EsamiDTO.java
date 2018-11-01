@@ -1,7 +1,10 @@
 package com.saf.service.dto;
 
+
 import java.time.LocalDate;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -13,13 +16,15 @@ public class EsamiDTO implements Serializable {
 
     private LocalDate data;
 
-    private Long relEsamiSediId;
-
-    private String relEsamiSediSede;
-
     private Long relMatEsamiId;
+    
+    private String relMatEsamiNome;
+    
+    private String relEsamiCdlNome;
 
-    public Long getId() {
+  
+
+	public Long getId() {
         return id;
     }
 
@@ -35,22 +40,6 @@ public class EsamiDTO implements Serializable {
         this.data = data;
     }
 
-    public Long getRelEsamiSediId() {
-        return relEsamiSediId;
-    }
-
-    public void setRelEsamiSediId(Long sediId) {
-        this.relEsamiSediId = sediId;
-    }
-
-    public String getRelEsamiSediSede() {
-        return relEsamiSediSede;
-    }
-
-    public void setRelEsamiSediSede(String sediSede) {
-        this.relEsamiSediSede = sediSede;
-    }
-
     public Long getRelMatEsamiId() {
         return relMatEsamiId;
     }
@@ -59,7 +48,23 @@ public class EsamiDTO implements Serializable {
         this.relMatEsamiId = materieId;
     }
 
-    @Override
+    public String getRelMatEsamiNome() {
+		return relMatEsamiNome;
+	}
+
+	public void setRelMatEsamiNome(String relMatEsamiNome) {
+		this.relMatEsamiNome = relMatEsamiNome;
+	}
+
+	  public String getRelEsamiCdlNome() {
+			return relEsamiCdlNome;
+		}
+
+		public void setRelEsamiCdlNome(String relEsamiCdlNome) {
+			this.relEsamiCdlNome = relEsamiCdlNome;
+		}
+	
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -69,7 +74,7 @@ public class EsamiDTO implements Serializable {
         }
 
         EsamiDTO esamiDTO = (EsamiDTO) o;
-        if (esamiDTO.getId() == null || getId() == null) {
+        if(esamiDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), esamiDTO.getId());
@@ -85,9 +90,6 @@ public class EsamiDTO implements Serializable {
         return "EsamiDTO{" +
             "id=" + getId() +
             ", data='" + getData() + "'" +
-            ", relEsamiSedi=" + getRelEsamiSediId() +
-            ", relEsamiSedi='" + getRelEsamiSediSede() + "'" +
-            ", relMatEsami=" + getRelMatEsamiId() +
             "}";
     }
 }

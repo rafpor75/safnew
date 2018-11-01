@@ -12,6 +12,8 @@ import org.mapstruct.*;
 public interface SediMapper extends EntityMapper<SediDTO, Sedi> {
 
 
+    @Mapping(target = "relSediNotes", ignore = true)
+    Sedi toEntity(SediDTO sediDTO);
 
     default Sedi fromId(Long id) {
         if (id == null) {

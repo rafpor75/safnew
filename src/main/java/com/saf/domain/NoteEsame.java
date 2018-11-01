@@ -1,6 +1,5 @@
 package com.saf.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -58,12 +57,19 @@ public class NoteEsame implements Serializable {
     @Column(name = "email_inviata")
     private Boolean emailInviata;
 
+    @Column(name = "superato")
+    private Boolean superato;
+    
+    @Column(name = "sostenuto")
+    private Boolean sostenuto;
+    
     @ManyToOne
-    @JsonIgnoreProperties("")
+    private Sedi relNoteSedi;
+
+    @ManyToOne
     private Studenti relNoteStud;
 
     @ManyToOne
-    @JsonIgnoreProperties("")
     private Esami relNoteEsami;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -231,6 +237,19 @@ public class NoteEsame implements Serializable {
         this.emailInviata = emailInviata;
     }
 
+    public Sedi getRelNoteSedi() {
+        return relNoteSedi;
+    }
+
+    public NoteEsame relNoteSedi(Sedi sedi) {
+        this.relNoteSedi = sedi;
+        return this;
+    }
+
+    public void setRelNoteSedi(Sedi sedi) {
+        this.relNoteSedi = sedi;
+    }
+
     public Studenti getRelNoteStud() {
         return relNoteStud;
     }
@@ -255,6 +274,31 @@ public class NoteEsame implements Serializable {
 
     public void setRelNoteEsami(Esami esami) {
         this.relNoteEsami = esami;
+    }
+    
+    public Boolean isSostenuto() {
+        return sostenuto;
+    }
+
+    public NoteEsame sostenuto(Boolean sostenuto) {
+        this.sostenuto = sostenuto;
+        return this;
+    }
+
+    public void setSostenuto(Boolean sostenuto) {
+        this.sostenuto = sostenuto;
+    }
+    public Boolean isSuperato() {
+        return superato;
+    }
+
+    public NoteEsame superato(Boolean superato) {
+        this.superato = superato;
+        return this;
+    }
+
+    public void setSuperato(Boolean superato) {
+        this.superato = superato;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

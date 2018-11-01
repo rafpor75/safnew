@@ -1,7 +1,10 @@
 package com.saf.service.dto;
 
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -12,11 +15,14 @@ public class TutorDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 65)
     private String nome;
 
     @NotNull
+    @Size(min = 1, max = 65)
     private String cognome;
 
+    @Size(min = 1, max = 65)
     private String email;
 
     private Boolean abilitato;
@@ -71,7 +77,7 @@ public class TutorDTO implements Serializable {
         }
 
         TutorDTO tutorDTO = (TutorDTO) o;
-        if (tutorDTO.getId() == null || getId() == null) {
+        if(tutorDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), tutorDTO.getId());

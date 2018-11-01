@@ -5,6 +5,7 @@ import com.saf.service.MaterieService;
 import com.saf.web.rest.errors.BadRequestAlertException;
 import com.saf.web.rest.util.HeaderUtil;
 import com.saf.web.rest.util.PaginationUtil;
+import com.saf.service.dto.CdlDTO;
 import com.saf.service.dto.MaterieDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -22,6 +23,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+//import java.util.stream.StreamSupport;
+
+//import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Materie.
@@ -34,7 +38,7 @@ public class MaterieResource {
 
     private static final String ENTITY_NAME = "materie";
 
-    private MaterieService materieService;
+    private final MaterieService materieService;
 
     public MaterieResource(MaterieService materieService) {
         this.materieService = materieService;
@@ -74,7 +78,7 @@ public class MaterieResource {
     public ResponseEntity<MaterieDTO> updateMaterie(@Valid @RequestBody MaterieDTO materieDTO) throws URISyntaxException {
         log.debug("REST request to update Materie : {}", materieDTO);
         if (materieDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            return createMaterie(materieDTO);
         }
         MaterieDTO result = materieService.save(materieDTO);
         return ResponseEntity.ok()
@@ -97,6 +101,29 @@ public class MaterieResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+    /**
+     * GET  /materies by cdl id : get all the materies by cdl id.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of cdls in body
+     */
+    @GetMapping("/materies/cdls/{cdlId}")
+    @Timed
+    public ResponseEntity<List<MaterieDTO>> getAllMaterieForCdl( @PathVariable Long cdlId, Pageable pageable) {
+        log.debug("REST request to get a page of Materie");
+        Page<MaterieDTO> page = materieService.findByCdlId(cdlId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/materie/cdls/{cdlId}");
+        
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    
+    }
+    
+    @GetMapping("/materies/listmaterie/{cdlId}")
+    @Timed
+    public List<MaterieDTO> getAllMaterieForCdlList( @PathVariable Long cdlId) {
+        log.debug("REST request to get a page of Cdls");
+        return  materieService.findByCdlId(cdlId);
+    }
     /**
      * GET  /materies/:id : get the "id" materie.
      *
@@ -124,4 +151,22 @@ public class MaterieResource {
         materieService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * SEARCH  /_search/materies?query=:query : search for the materie corresponding
+     * to the query.
+     *
+     * @param query the query of the materie search
+     * @param pageable the pagination information
+     * @return the result of the search
+     */
+    @GetMapping("/_search/materies")
+    @Timed
+    public ResponseEntity<List<MaterieDTO>> searchMateries(@RequestParam String query, Pageable pageable) {
+        log.debug("REST request to search for a page of Materies for query {}", query);
+        Page<MaterieDTO> page = materieService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/materies");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 }

@@ -1,8 +1,11 @@
 package com.saf.service.dto;
 
+
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -36,10 +39,24 @@ public class NoteEsameDTO implements Serializable {
 
     private Boolean emailInviata;
 
+    private Long relNoteSediId;
+
+    private String relNoteSediSede;
+
     private Long relNoteStudId;
+    
+    private String relNoteStudNome;
+    
+    private String relNoteStudCognome;
+    
+    private String relNoteStudMatricola;
 
     private Long relNoteEsamiId;
 
+    private Boolean superato;
+    
+    private Boolean sostenuto;
+    
     public Long getId() {
         return id;
     }
@@ -144,6 +161,22 @@ public class NoteEsameDTO implements Serializable {
         this.emailInviata = emailInviata;
     }
 
+    public Long getRelNoteSediId() {
+        return relNoteSediId;
+    }
+
+    public void setRelNoteSediId(Long sediId) {
+        this.relNoteSediId = sediId;
+    }
+
+    public String getRelNoteSediSede() {
+        return relNoteSediSede;
+    }
+
+    public void setRelNoteSediSede(String sediSede) {
+        this.relNoteSediSede = sediSede;
+    }
+
     public Long getRelNoteStudId() {
         return relNoteStudId;
     }
@@ -160,7 +193,47 @@ public class NoteEsameDTO implements Serializable {
         this.relNoteEsamiId = esamiId;
     }
 
-    @Override
+    public String getRelNoteStudNome() {
+		return relNoteStudNome;
+	}
+
+	public void setRelNoteStudNome(String relNoteStudNome) {
+		this.relNoteStudNome = relNoteStudNome;
+	}
+
+	public String getRelNoteStudCognome() {
+		return relNoteStudCognome;
+	}
+
+	public void setRelNoteStudCognome(String relNoteStudCognome) {
+		this.relNoteStudCognome = relNoteStudCognome;
+	}
+
+	public String getRelNoteStudMatricola() {
+		return relNoteStudMatricola;
+	}
+
+	public void setRelNoteStudMatricola(String relNoteStudMatricola) {
+		this.relNoteStudMatricola = relNoteStudMatricola;
+	}
+
+	public Boolean isSuperato() {
+		return superato;
+	}
+
+	public void setSuperato(Boolean superato) {
+		this.superato = superato;
+	}
+
+	public Boolean isSostenuto() {
+		return sostenuto;
+	}
+
+	public void setSostenuto(Boolean sostenuto) {
+		this.sostenuto = sostenuto;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -170,7 +243,7 @@ public class NoteEsameDTO implements Serializable {
         }
 
         NoteEsameDTO noteEsameDTO = (NoteEsameDTO) o;
-        if (noteEsameDTO.getId() == null || getId() == null) {
+        if(noteEsameDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), noteEsameDTO.getId());
@@ -197,8 +270,6 @@ public class NoteEsameDTO implements Serializable {
             ", fattura='" + isFattura() + "'" +
             ", noteFattura='" + getNoteFattura() + "'" +
             ", emailInviata='" + isEmailInviata() + "'" +
-            ", relNoteStud=" + getRelNoteStudId() +
-            ", relNoteEsami=" + getRelNoteEsamiId() +
             "}";
     }
 }

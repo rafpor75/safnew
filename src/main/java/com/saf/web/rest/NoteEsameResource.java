@@ -1,10 +1,12 @@
 package com.saf.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.saf.service.NoteEsameQueryService;
 import com.saf.service.NoteEsameService;
 import com.saf.web.rest.errors.BadRequestAlertException;
 import com.saf.web.rest.util.HeaderUtil;
 import com.saf.web.rest.util.PaginationUtil;
+import com.saf.service.dto.NoteEsameCriteria;
 import com.saf.service.dto.NoteEsameDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -21,6 +23,9 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+//import java.util.stream.StreamSupport;
+
+//import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing NoteEsame.
@@ -33,10 +38,13 @@ public class NoteEsameResource {
 
     private static final String ENTITY_NAME = "noteEsame";
 
-    private NoteEsameService noteEsameService;
-
-    public NoteEsameResource(NoteEsameService noteEsameService) {
+    private final NoteEsameService noteEsameService;
+    
+    private final NoteEsameQueryService noteEsameQueryService;
+    
+    public NoteEsameResource(NoteEsameService noteEsameService, NoteEsameQueryService noteEsameQueryService) {
         this.noteEsameService = noteEsameService;
+        this.noteEsameQueryService = noteEsameQueryService;
     }
 
     /**
@@ -73,7 +81,7 @@ public class NoteEsameResource {
     public ResponseEntity<NoteEsameDTO> updateNoteEsame(@RequestBody NoteEsameDTO noteEsameDTO) throws URISyntaxException {
         log.debug("REST request to update NoteEsame : {}", noteEsameDTO);
         if (noteEsameDTO.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            return createNoteEsame(noteEsameDTO);
         }
         NoteEsameDTO result = noteEsameService.save(noteEsameDTO);
         return ResponseEntity.ok()
@@ -89,13 +97,39 @@ public class NoteEsameResource {
      */
     @GetMapping("/note-esames")
     @Timed
-    public ResponseEntity<List<NoteEsameDTO>> getAllNoteEsames(Pageable pageable) {
-        log.debug("REST request to get a page of NoteEsames");
-        Page<NoteEsameDTO> page = noteEsameService.findAll(pageable);
+    public ResponseEntity<List<NoteEsameDTO>> getAllNoteEsames(NoteEsameCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get a page of NoteEsames by criteria: {}", criteria);
+        Page<NoteEsameDTO> page = noteEsameQueryService.findByCriteria(criteria, pageable);
+        //Page<NoteEsameDTO> page = noteEsameService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/note-esames");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+    /**
+     * GET  /note-esames : get all the noteEsames by esameId.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the list of noteEsames in body
+     */
+    @GetMapping("/note-esames/esamis/{esameId}")
+    @Timed
+    public ResponseEntity<List<NoteEsameDTO>> getAllNoteEsamesByEsame(@PathVariable Long esameId, Pageable pageable) {
+        log.debug("REST request to get a page of NoteEsames");
+        Page<NoteEsameDTO> page = noteEsameService.findByEsameId(esameId, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/note-esames");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+    
+    @GetMapping("/note-esames/numesamis/{esameId}")
+    @Timed
+    public ResponseEntity<Long> getCountNoteEsamesByEsame(@PathVariable Long esameId) {
+        log.debug("REST request to get the number of NoteEsames");
+        Long numeroIscritti = noteEsameService.countByEsameId(esameId);
+        
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(numeroIscritti));
+    }
+    
+    
     /**
      * GET  /note-esames/:id : get the "id" noteEsame.
      *
@@ -123,4 +157,6 @@ public class NoteEsameResource {
         noteEsameService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+
 }

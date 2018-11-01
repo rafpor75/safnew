@@ -1,11 +1,11 @@
 package com.saf.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+//import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +16,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "cdl")
+//@Document(indexName = "cdl")
 public class Cdl implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,16 +30,18 @@ public class Cdl implements Serializable {
     private String codice;
 
     @NotNull
-    @Column(name = "nome", nullable = false)
+    @Size(max = 255)
+    @Column(name = "nome", length = 255, nullable = false)
     private String nome;
 
     @Column(name = "abilitato")
     private Boolean abilitato;
 
     @OneToMany(mappedBy = "relMatsCdl")
+    @JsonIgnore
     private Set<Materie> relCdlMats = new HashSet<>();
+
     @ManyToOne
-    @JsonIgnoreProperties("relFacCdls")
     private Facolta relCdlsFac;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

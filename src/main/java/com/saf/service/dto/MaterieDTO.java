@@ -1,8 +1,11 @@
 package com.saf.service.dto;
 
+
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -13,6 +16,7 @@ public class MaterieDTO implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 65)
     private String nome;
 
     private Integer cfu;
@@ -24,7 +28,9 @@ public class MaterieDTO implements Serializable {
     private Long relMatsCdlId;
 
     private String relMatsCdlNome;
-
+    
+    private String relMatsCdlCodice;
+    
     private Long relMatsTutId;
 
     private String relMatsTutCognome;
@@ -121,7 +127,15 @@ public class MaterieDTO implements Serializable {
         this.relMatsDocCognome = docentiCognome;
     }
 
-    @Override
+    public String getRelMatsCdlCodice() {
+		return relMatsCdlCodice;
+	}
+
+	public void setRelMatsCdlCodice(String relMatsCdlCodice) {
+		this.relMatsCdlCodice = relMatsCdlCodice;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -131,7 +145,7 @@ public class MaterieDTO implements Serializable {
         }
 
         MaterieDTO materieDTO = (MaterieDTO) o;
-        if (materieDTO.getId() == null || getId() == null) {
+        if(materieDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), materieDTO.getId());
@@ -150,12 +164,6 @@ public class MaterieDTO implements Serializable {
             ", cfu=" + getCfu() +
             ", abilitato='" + isAbilitato() + "'" +
             ", dataModifica='" + getDataModifica() + "'" +
-            ", relMatsCdl=" + getRelMatsCdlId() +
-            ", relMatsCdl='" + getRelMatsCdlNome() + "'" +
-            ", relMatsTut=" + getRelMatsTutId() +
-            ", relMatsTut='" + getRelMatsTutCognome() + "'" +
-            ", relMatsDoc=" + getRelMatsDocId() +
-            ", relMatsDoc='" + getRelMatsDocCognome() + "'" +
             "}";
     }
 }

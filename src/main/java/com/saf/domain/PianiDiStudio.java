@@ -1,9 +1,9 @@
 package com.saf.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
+//import org.springframework.data.elasticsearch.annotations.Document;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -15,6 +15,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "piani_di_studio")
+//@Document(indexName = "pianidistudio")
 public class PianiDiStudio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,17 +31,18 @@ public class PianiDiStudio implements Serializable {
     private LocalDate dataModifica;
 
     @ManyToOne
-    @JsonIgnoreProperties("")
     private AnnoAccademico relAnnoAccademico;
 
     @ManyToOne
-    @JsonIgnoreProperties("")
     private Cdl relPdsCdl;
 
+    @ManyToOne
+    private Studenti relPdsStu;
+    
     @ManyToMany
     @JoinTable(name = "piani_di_studio_rel_pds_mat",
-               joinColumns = @JoinColumn(name = "piani_di_studios_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "rel_pds_mats_id", referencedColumnName = "id"))
+               joinColumns = @JoinColumn(name="piani_di_studios_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="rel_pds_mats_id", referencedColumnName="id"))
     private Set<Materie> relPdsMats = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -104,6 +106,19 @@ public class PianiDiStudio implements Serializable {
         this.relPdsCdl = cdl;
     }
 
+    public Studenti getRelPdsStu() {
+        return relPdsStu;
+    }
+
+    public PianiDiStudio relPdsStu(Studenti stu) {
+        this.relPdsStu = stu;
+        return this;
+    }
+
+    public void setRelPdsStu(Studenti stu) {
+        this.relPdsStu = stu;
+    }
+    
     public Set<Materie> getRelPdsMats() {
         return relPdsMats;
     }
