@@ -1,0 +1,44 @@
+{
+    "name": "PianiDiStudio",
+    "fields": [
+        {
+            "fieldName": "abilitato",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "dataModifica",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "relAnnoAccademico",
+            "otherEntityName": "annoAccademico",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "relPdsCdl",
+            "otherEntityName": "cdl",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "relPdsMat",
+            "otherEntityName": "materie",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "changelogDate": "20181101194014",
+    "entityTableName": "piani_di_studio",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

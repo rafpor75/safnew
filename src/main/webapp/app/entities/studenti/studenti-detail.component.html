@@ -1,0 +1,89 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="studenti">
+            <h2><span jhiTranslate="safnewApp.studenti.detail.title">Studenti</span> {{studenti.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="safnewApp.studenti.nome">Nome</span></dt>
+                <dd>
+                    <span>{{studenti.nome}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.cognome">Cognome</span></dt>
+                <dd>
+                    <span>{{studenti.cognome}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.email">Email</span></dt>
+                <dd>
+                    <span>{{studenti.email}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.telefono">Telefono</span></dt>
+                <dd>
+                    <span>{{studenti.telefono}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.indirizzo">Indirizzo</span></dt>
+                <dd>
+                    <span>{{studenti.indirizzo}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.citta">Citta</span></dt>
+                <dd>
+                    <span>{{studenti.citta}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.provincia">Provincia</span></dt>
+                <dd>
+                    <span>{{studenti.provincia}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.stato">Stato</span></dt>
+                <dd>
+                    <span>{{studenti.stato}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.cap">Cap</span></dt>
+                <dd>
+                    <span>{{studenti.cap}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.dataDiNascita">Data Di Nascita</span></dt>
+                <dd>
+                    <span>{{studenti.dataDiNascita}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.luogoDiNascita">Luogo Di Nascita</span></dt>
+                <dd>
+                    <span>{{studenti.luogoDiNascita}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.matricola">Matricola</span></dt>
+                <dd>
+                    <span>{{studenti.matricola}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.tempoParziale">Tempo Parziale</span></dt>
+                <dd>
+                    <span>{{studenti.tempoParziale}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.abilitato">Abilitato</span></dt>
+                <dd>
+                    <span>{{studenti.abilitato}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.dataModifica">Data Modifica</span></dt>
+                <dd>
+                    <span>{{studenti.dataModifica}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.studenti.relStuCdl">Rel Stu Cdl</span></dt>
+                <dd>
+                    <div *ngIf="studenti.relStuCdlId">
+                        <a [routerLink]="['/cdl', studenti.relStuCdlId, 'view']">{{studenti.relStuCdlId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/studenti', studenti.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

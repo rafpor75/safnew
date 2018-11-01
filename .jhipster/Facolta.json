@@ -1,0 +1,37 @@
+{
+    "name": "Facolta",
+    "fields": [
+        {
+            "fieldName": "nome",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "dataModifica",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "abilitato",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "relFacCdls",
+            "otherEntityName": "cdl",
+            "otherEntityRelationshipName": "relCdlsFac"
+        }
+    ],
+    "changelogDate": "20181101194009",
+    "entityTableName": "facolta",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

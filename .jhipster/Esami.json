@@ -1,0 +1,34 @@
+{
+    "name": "Esami",
+    "fields": [
+        {
+            "fieldName": "data",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "relEsamiSedi",
+            "otherEntityName": "sedi",
+            "otherEntityField": "sede",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "esami"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "relMatEsami",
+            "otherEntityName": "materie",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20181101194018",
+    "entityTableName": "esami",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

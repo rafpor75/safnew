@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="cdl">
+            <h2><span jhiTranslate="safnewApp.cdl.detail.title">Cdl</span> {{cdl.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="safnewApp.cdl.codice">Codice</span></dt>
+                <dd>
+                    <span>{{cdl.codice}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.cdl.nome">Nome</span></dt>
+                <dd>
+                    <span>{{cdl.nome}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.cdl.abilitato">Abilitato</span></dt>
+                <dd>
+                    <span>{{cdl.abilitato}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.cdl.relCdlsFac">Rel Cdls Fac</span></dt>
+                <dd>
+                    <div *ngIf="cdl.relCdlsFacId">
+                        <a [routerLink]="['/facolta', cdl.relCdlsFacId, 'view']">{{cdl.relCdlsFacNome}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/cdl', cdl.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

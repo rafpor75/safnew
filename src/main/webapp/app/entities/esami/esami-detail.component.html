@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="esami">
+            <h2><span jhiTranslate="safnewApp.esami.detail.title">Esami</span> {{esami.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="safnewApp.esami.data">Data</span></dt>
+                <dd>
+                    <span>{{esami.data}}</span>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.esami.relEsamiSedi">Rel Esami Sedi</span></dt>
+                <dd>
+                    <div *ngIf="esami.relEsamiSediId">
+                        <a [routerLink]="['/sedi', esami.relEsamiSediId, 'view']">{{esami.relEsamiSediSede}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="safnewApp.esami.relMatEsami">Rel Mat Esami</span></dt>
+                <dd>
+                    <div *ngIf="esami.relMatEsamiId">
+                        <a [routerLink]="['/materie', esami.relMatEsamiId, 'view']">{{esami.relMatEsamiId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/esami', esami.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

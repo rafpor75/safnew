@@ -1,0 +1,46 @@
+{
+    "name": "Cdl",
+    "fields": [
+        {
+            "fieldName": "codice",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "nome",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "abilitato",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "relCdlMats",
+            "otherEntityName": "materie",
+            "otherEntityRelationshipName": "relMatsCdl"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "relCdlsFac",
+            "otherEntityName": "facolta",
+            "otherEntityField": "nome"
+        }
+    ],
+    "changelogDate": "20181101194011",
+    "entityTableName": "cdl",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

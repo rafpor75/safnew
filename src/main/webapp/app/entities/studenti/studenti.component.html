@@ -1,0 +1,96 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="safnewApp.studenti.home.title">Studentis</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-studenti" [routerLink]="['/studenti/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="safnewApp.studenti.home.createLabel">
+            Create new Studenti
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="studentis">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="nome"><span jhiTranslate="safnewApp.studenti.nome">Nome</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cognome"><span jhiTranslate="safnewApp.studenti.cognome">Cognome</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="email"><span jhiTranslate="safnewApp.studenti.email">Email</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="telefono"><span jhiTranslate="safnewApp.studenti.telefono">Telefono</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="indirizzo"><span jhiTranslate="safnewApp.studenti.indirizzo">Indirizzo</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="citta"><span jhiTranslate="safnewApp.studenti.citta">Citta</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="provincia"><span jhiTranslate="safnewApp.studenti.provincia">Provincia</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="stato"><span jhiTranslate="safnewApp.studenti.stato">Stato</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="cap"><span jhiTranslate="safnewApp.studenti.cap">Cap</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="dataDiNascita"><span jhiTranslate="safnewApp.studenti.dataDiNascita">Data Di Nascita</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="luogoDiNascita"><span jhiTranslate="safnewApp.studenti.luogoDiNascita">Luogo Di Nascita</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="matricola"><span jhiTranslate="safnewApp.studenti.matricola">Matricola</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="tempoParziale"><span jhiTranslate="safnewApp.studenti.tempoParziale">Tempo Parziale</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="abilitato"><span jhiTranslate="safnewApp.studenti.abilitato">Abilitato</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="dataModifica"><span jhiTranslate="safnewApp.studenti.dataModifica">Data Modifica</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="relStuCdlId"><span jhiTranslate="safnewApp.studenti.relStuCdl">Rel Stu Cdl</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let studenti of studentis ;trackBy: trackId">
+                <td><a [routerLink]="['/studenti', studenti.id, 'view' ]">{{studenti.id}}</a></td>
+                <td>{{studenti.nome}}</td>
+                <td>{{studenti.cognome}}</td>
+                <td>{{studenti.email}}</td>
+                <td>{{studenti.telefono}}</td>
+                <td>{{studenti.indirizzo}}</td>
+                <td>{{studenti.citta}}</td>
+                <td>{{studenti.provincia}}</td>
+                <td>{{studenti.stato}}</td>
+                <td>{{studenti.cap}}</td>
+                <td>{{studenti.dataDiNascita | date:'mediumDate'}}</td>
+                <td>{{studenti.luogoDiNascita}}</td>
+                <td>{{studenti.matricola}}</td>
+                <td>{{studenti.tempoParziale}}</td>
+                <td>{{studenti.abilitato}}</td>
+                <td>{{studenti.dataModifica | date:'mediumDate'}}</td>
+                <td>
+                    <div *ngIf="studenti.relStuCdlId">
+                        <a [routerLink]="['../cdl', studenti.relStuCdlId , 'view' ]" >{{studenti.relStuCdlId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/studenti', studenti.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/studenti', studenti.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'studenti/'+ studenti.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="studentis && studentis.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

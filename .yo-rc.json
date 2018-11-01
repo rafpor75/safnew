@@ -1,0 +1,37 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.saf",
+      "nativeLanguage": "it"
+    },
+    "jhipsterVersion": "5.5.0",
+    "applicationType": "monolith",
+    "baseName": "safnew",
+    "packageName": "com.saf",
+    "packageFolder": "com/saf",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "OTZkMDc4ZWEwMWE5ZThjMmFiMzA5ZmMyMzY5YmEzOTFlM2E3NDVhZWNkMDBhNTFkZDAzNzNkZjgzNWExMzYzZGJjNzcyMDNhOTQxZjMwOWJiYTJmNGZlN2UzOGYxMTBlMzI2MDUzZmRjNjYwNGY5OWNmNGI4Zjg3NzUwNDFlZjY=",
+    "clientFramework": "angularX",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "enableTranslation": true,
+    "nativeLanguage": "it",
+    "languages": [
+      "it"
+    ]
+  }
+}

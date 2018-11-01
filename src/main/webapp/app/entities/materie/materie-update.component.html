@@ -1,0 +1,76 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-materie-heading" jhiTranslate="safnewApp.materie.home.createOrEditLabel">Create or edit a Materie</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!materie.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="materie.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="safnewApp.materie.nome" for="field_nome">Nome</label>
+                    <input type="text" class="form-control" name="nome" id="field_nome"
+                        [(ngModel)]="materie.nome" required/>
+                    <div [hidden]="!(editForm.controls.nome?.dirty && editForm.controls.nome?.invalid)">
+                        <small class="form-text text-danger"
+                        [hidden]="!editForm.controls.nome?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="safnewApp.materie.cfu" for="field_cfu">Cfu</label>
+                    <input type="number" class="form-control" name="cfu" id="field_cfu"
+                        [(ngModel)]="materie.cfu" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="safnewApp.materie.abilitato" for="field_abilitato">Abilitato</label>
+                    <input type="checkbox" class="form-control" name="abilitato" id="field_abilitato"
+                        [(ngModel)]="materie.abilitato" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="safnewApp.materie.dataModifica" for="field_dataModifica">Data Modifica</label>
+                    <div class="input-group">
+                        <input id="field_dataModifica" type="text" class="form-control" name="dataModifica" ngbDatepicker  #dataModificaDp="ngbDatepicker" [(ngModel)]="materie.dataModifica"
+                        />
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dataModificaDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="safnewApp.materie.relMatsCdl" for="field_relMatsCdl">Rel Mats Cdl</label>
+                    <select class="form-control" id="field_relMatsCdl" name="relMatsCdl" [(ngModel)]="materie.relMatsCdlId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="cdlOption.id" *ngFor="let cdlOption of cdls; trackBy: trackCdlById">{{cdlOption.nome}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="safnewApp.materie.relMatsTut" for="field_relMatsTut">Rel Mats Tut</label>
+                    <select class="form-control" id="field_relMatsTut" name="relMatsTut" [(ngModel)]="materie.relMatsTutId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="tutorOption.id" *ngFor="let tutorOption of tutors; trackBy: trackTutorById">{{tutorOption.cognome}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="safnewApp.materie.relMatsDoc" for="field_relMatsDoc">Rel Mats Doc</label>
+                    <select class="form-control" id="field_relMatsDoc" name="relMatsDoc" [(ngModel)]="materie.relMatsDocId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="docentiOption.id" *ngFor="let docentiOption of docentis; trackBy: trackDocentiById">{{docentiOption.cognome}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

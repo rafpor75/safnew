@@ -1,0 +1,53 @@
+{
+    "name": "Materie",
+    "fields": [
+        {
+            "fieldName": "nome",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "cfu",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "abilitato",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "dataModifica",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "relMatsCdl",
+            "otherEntityName": "cdl",
+            "otherEntityField": "nome"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "relMatsTut",
+            "otherEntityName": "tutor",
+            "otherEntityField": "cognome"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "relMatsDoc",
+            "otherEntityName": "docenti",
+            "otherEntityField": "cognome"
+        }
+    ],
+    "changelogDate": "20181101194013",
+    "entityTableName": "materie",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}
